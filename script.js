@@ -1,7 +1,7 @@
 const audioElement = document.getElementById('audio')
 const button = document.getElementById('button')
 const jokeUrl =
-  'https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit'
+  'https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&safe-mode'
 
 const VoiceRSS = {
   speech: function (e) {
@@ -136,4 +136,13 @@ button.addEventListener('click', async () => {
   }
 })
 
-getJoke()
+function toggleButton () {
+  button.disabled = !button.disabled
+}
+
+audioElement.onplay = function () {
+  toggleButton()
+}
+audioElement.onpause = function () {
+  toggleButton()
+}
