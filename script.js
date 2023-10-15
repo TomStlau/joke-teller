@@ -109,17 +109,15 @@ const VoiceRSS = {
 }
 
 async function getJoke () {
-  const response = await fetch(jokeUrl).then(res => res.json())
-  return response
+  const response = await fetch(jokeUrl)
+  data = await response.json()
+  return data
 }
 
 button.addEventListener('click', async () => {
   try {
     const joke = await getJoke().then(data => {
-      if (data.setup) {
-        return `${data.setup} ... ${data.delivery}`
-      }
-      return data.joke
+      return data.setup ? `${data.setup} ... ${data.delivery}` : data.joke
     })
     VoiceRSS.speech({
       key: 'e70c52296f3448fbbaae3d47abb2177d',
@@ -140,9 +138,5 @@ function toggleButton () {
   button.disabled = !button.disabled
 }
 
-audioElement.onplay = function () {
-  toggleButton()
-}
-audioElement.onpause = function () {
-  toggleButton()
-}
+audioElement.onplay = toggleButton
+audioElement.onpause = toggleButton
